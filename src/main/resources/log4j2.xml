@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug" strict="true" monitorInterval="300">
+    <Properties>
+        <Property name="LOG_HOME">${sys:catalina.home}/WebAppLogs</Property>
+        <Property name="LOG_USER_FOLDER">${sys:user.home}/logs</Property>
+        <Property name="WEBAPP_ROOT">${web:rootDir}</Property>
+        <Property name="CONTEXT_PATH">${web:contextPath}</Property>
+    </Properties>
+    <!--
+    Event Level: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF
+    LoggerConfig Level: TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
+    -->
+    <!--An output destination is called an Appender-->
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{2}\n \t %msg%n%n"/>
+        </Console>
+        <!--Relative path: relative to the bin/ of server container (Tomcat)-->
+        <!--System path variable:
+        1. {sys:user.home} ==> user folder
+        2. ${sys:catalina.home} ==> Tomcat root installation folder
+        -->
+        <File name="TestLog" fileName="${WEBAPP_ROOT}/WEB-INF/test.log" append="false">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+        </File>
+        <RollingFile name="RollingFileInfo" fileName="${LOG_USER_FOLDER}/info.log"
+                     filePattern="${LOG_USER_FOLDER}/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+        </RollingFile>
+        <RollingFile name="RollingFileWarn" fileName="${LOG_USER_FOLDER}/warn.log"
+                     filePattern="${LOG_USER_FOLDER}/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+        <RollingFile name="RollingFileError" fileName="${LOG_USER_FOLDER}/error.log"
+                     filePattern="${LOG_USER_FOLDER}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.springframework" level="debug"></Logger>
+        <Logger name="org.mybatis" level="debug"></Logger>
+        <Logger name="com.joey.learning.spring" level="debug"></Logger>
+        <Root level="error">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="TestLog"/>
+            <!--
+            <appender-ref ref="RollingFileInfo"/>
+            <appender-ref ref="RollingFileWarn"/>
+            <appender-ref ref="RollingFileError"/>
+            -->
+        </Root>
+    </Loggers>
+</Configuration>

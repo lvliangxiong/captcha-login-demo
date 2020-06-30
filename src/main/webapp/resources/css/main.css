@@ -1,0 +1,10 @@
+.error-info {
+    color: #e53b3b;
+    font-weight: bold;
+}
+
+.login-form {
+    margin: auto;
+    width: 30%;
+    padding: 10px;
+}
