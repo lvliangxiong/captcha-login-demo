@@ -106,17 +106,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!--Bridge excluded commons-logging to Log4J-->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.7.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.5</version>
-        </dependency>
         <!--Log4J2-->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
